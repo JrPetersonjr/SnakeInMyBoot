@@ -1,0 +1,17 @@
+ROOTSIGNAL FIX USB - DO THIS
+
+1) Turn the computer off.
+2) Plug in the USB stick.
+3) Turn the computer on.
+4) Tap the key that opens the boot menu:
+   Dell: F12
+   HP: F9
+   Lenovo: F12
+   Acer: F12
+5) Choose USB Device.
+6) When the blue Windows screen appears, click:
+   Repair your computer -> Troubleshoot -> Command Prompt
+7) Type and press Enter:
+   X:\RootFix\fixme.bat
+8) Wait until it says Done.
+9) Close the window and restart the computer.
