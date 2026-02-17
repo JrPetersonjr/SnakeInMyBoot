@@ -15,6 +15,9 @@ set SCRIPT_TO_RUN=%LOCAL_SCRIPT%
 set PS_MODE=auto
 set UPDATE_MODE=local
 
+set KBLIST=%USBROOT%\kb_targets.txt
+set TELEMETRY=%USBROOT%\telemetry.config.ps1
+
 set LOGFILE=%LOGDIR%\bootstrap-%DATE:~10,4%%DATE:~4,2%%DATE:~7,2%-%TIME:~0,2%%TIME:~3,2%%TIME:~6,2%.log
 set LOGFILE=%LOGFILE: =0%
 if not exist "%LOGDIR%" mkdir "%LOGDIR%"
@@ -37,6 +40,8 @@ if /I "%~1"=="full" set PS_MODE=full
 if /I "%~1"=="boot" set PS_MODE=boot
 if /I "%~1"=="repair" set PS_MODE=repair
 if /I "%~1"=="auto" set PS_MODE=auto
+if /I "%~1"=="collect" set PS_MODE=collect
+if /I "%~1"=="undo" set PS_MODE=undo
 if not "%~1"=="" goto RUN
 
 :MENU
@@ -49,13 +54,15 @@ echo Choose one option:
 echo.
 echo   1. Recommended: Auto repair (local script)
 echo   2. Auto repair + check for verified online update
-echo   3. KB5077181 rollback check + disable updates
+echo   3. KB rollback check + disable updates
 echo   4. Full repair (all actions)
 echo   5. Boot repair only
 echo   6. Cache reset + DISM/SFC only
-echo   7. Exit
+echo   7. Collect diagnostics bundle only
+echo   8. Undo update block (re-enable updates)
+echo   9. Exit
 echo.
-set /p CHOICE=Enter 1-7 and press Enter: 
+set /p CHOICE=Enter 1-9 and press Enter: 
 
 if "%CHOICE%"=="1" (set PS_MODE=auto&set UPDATE_MODE=local&goto RUN)
 if "%CHOICE%"=="2" (set PS_MODE=auto&set UPDATE_MODE=update&goto RUN)
@@ -63,7 +70,9 @@ if "%CHOICE%"=="3" (set PS_MODE=kb&set UPDATE_MODE=local&goto RUN)
 if "%CHOICE%"=="4" (set PS_MODE=full&set UPDATE_MODE=local&goto RUN)
 if "%CHOICE%"=="5" (set PS_MODE=boot&set UPDATE_MODE=local&goto RUN)
 if "%CHOICE%"=="6" (set PS_MODE=repair&set UPDATE_MODE=local&goto RUN)
-if "%CHOICE%"=="7" exit /b 0
+if "%CHOICE%"=="7" (set PS_MODE=collect&set UPDATE_MODE=local&goto RUN)
+if "%CHOICE%"=="8" (set PS_MODE=undo&set UPDATE_MODE=local&goto RUN)
+if "%CHOICE%"=="9" exit /b 0
 
 echo Invalid choice.
 timeout /t 2 >nul
@@ -109,7 +118,7 @@ if /I "%UPDATE_MODE%"=="update" (
 )
 
 echo Running repair script: %SCRIPT_TO_RUN% >> "%LOGFILE%"
-powershell -NoProfile -ExecutionPolicy RemoteSigned -File "%SCRIPT_TO_RUN%" -Mode "%PS_MODE%" -LogRoot "%LOGDIR%" >> "%LOGFILE%" 2>&1
+powershell -NoProfile -ExecutionPolicy RemoteSigned -File "%SCRIPT_TO_RUN%" -Mode "%PS_MODE%" -LogRoot "%LOGDIR%" -KbListPath "%KBLIST%" -TelemetryConfigPath "%TELEMETRY%" >> "%LOGFILE%" 2>&1
 set EXITCODE=%ERRORLEVEL%
 
 echo [%DATE% %TIME%] Repair script exit code: %EXITCODE%>> "%LOGFILE%"
