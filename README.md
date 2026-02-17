@@ -6,6 +6,7 @@ Hosted Windows recovery toolkit for WinRE USB recovery and safe in-Windows updat
 - `fix.ps1`: Main repair script (`auto`, `kb`, `full`, `boot`, `repair`, `collect`, `undo`).
 - `fix.ps1.sha256`: SHA-256 checksum for verified hosted update.
 - `fixme.bat`: WinRE terminal menu (local-first, optional online update).
+- `startfix.bat` / `startfix.cmd`: Compatibility launchers that call `fixme.bat`.
 - `kb_targets.txt`: KB list checked for rollback.
 - `telemetry.config.sample.ps1`: Optional Gmail/GitHub upload template.
 - `windows_update_guard.ps1`: In-Windows restore-point + manual-update policy helper.
@@ -14,7 +15,10 @@ Hosted Windows recovery toolkit for WinRE USB recovery and safe in-Windows updat
 - `CLIENT-INSTRUCTIONS.txt`: End-user walkthrough.
 
 ## WinRE recovery
-Run `D:\RootFix\fixme.bat` from WinRE Command Prompt (use your USB letter).
+Use one of these from WinRE Command Prompt (replace drive letter if needed):
+- `G:\startfix.bat`
+- `G:\RootFix\fixme.bat`
+- `G:\RUN-ROOTFIX.cmd`
 
 ## In-Windows safe update path
 From File Explorer open USB, run `RootFix\RUN-IN-WINDOWS.cmd`, then choose option 1.

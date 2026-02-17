@@ -5,9 +5,11 @@ ROOTSIGNAL FIX USB - DO THIS (BOOT LOOP)
 3) Turn computer on and open Boot Menu (Dell/Lenovo/Acer F12, HP F9).
 4) Choose USB Device.
 5) On blue Windows screen: Repair your computer -> Troubleshoot -> Command Prompt.
-6) Run:
-   D:\RootFix\fixme.bat
-   (If not D:, use your USB letter.)
+6) Run one of these:
+   G:\startfix.bat
+   G:\RUN-ROOTFIX.cmd
+   G:\RootFix\fixme.bat
+   (If not G:, use your USB letter.)
 7) In the green menu choose:
    1  Recommended Auto Repair
 8) Wait for it to finish, then restart.
